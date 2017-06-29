@@ -8,6 +8,7 @@ defmodule Budget do
     |> filter
     |> normalize
     |> sort
+    |> sum_amounts
     |> print
   end
 
@@ -49,5 +50,15 @@ defmodule Budget do
 
   defp print_to_console([date, description, amount]) do
     IO.puts "#{date} #{description} \t$#{:erlang.float_to_binary(amount, decimals: 2)}"
+
   end
+
+  defp sum_amounts(rows) do
+    print_sum(Enum.reduce(rows, 0, fn([_, _, a], acc) -> a + acc end))
+    rows
+  end
+  defp print_sum(sum) do
+    IO.puts "In Total: #{:erlang.float_to_binary(sum, decimals: 2)}"
+  end
+
 end
